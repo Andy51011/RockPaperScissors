@@ -21,15 +21,16 @@ var computer_Score = 0;
     }
 
     var win = function(user, computer) {
-        user_Score++
+        user_Score++ 
         user_score.innerHTML = user_Score
         computer_scores.innerHTML = computer_Score
         results.innerHTML = user + " beats " + computer + ". You Win!!!"
-        console.log(user);
-        console.log(computer)
     }
 
-    var draw = function () {
+    var draw = function (user, computer) {
+        user_score.innerHTML = user_Score;
+        computer_scores.innerHTML = computer_Score;
+        results.innerHTML = `Tie! ${user} and ${computer}.`
         
         
 
@@ -38,52 +39,36 @@ var computer_Score = 0;
     var lose = function (user, computer) {
         computer_Score++
         user_score.innerHTML = user_Score
+        computer_scores.innerHTML = computer_Score;
         results.innerHTML = user + " loses to " + computer + ". You lose!!!"
     
     }
 
     var playRound = function(playerSelection) {
-        if (playerSelection.toLowerCase() === "rock" && computerPlay() === "scissors") {
-            win(playerSelection, computerPlay());
+       var computerDecision = computerPlay();
+       switch (playerSelection + computerDecision) {
+           case "rockscissors":
+           case "paperrock":
+           case "scissorspaper":
+            win(playerSelection, computerDecision) 
             break;
-           
-        }
-        if (playerSelection.toLowerCase() === "paper" && computerPlay() === "rock") {
-            win(playerSelection, computerPlay());
+       }
+       switch (playerSelection + computerDecision) {
+        case "scissorsrock":
+        case "rockpaper":
+        case "paperscissors":
+      
+            lose(playerSelection, computerDecision) 
             break;
-            
-    }
-         if (playerSelection.toLowerCase() === "scissors" && computerPlay() === "paper") {
-            win(playerSelection, computerPlay());
+       }
+         switch (playerSelection + computerDecision) {
+        case "rockrock":
+        case "paperpaper":
+        case "scissorsscissors":
+         
+            draw(playerSelection, computerDecision) 
             break;
-           
-    }
-        if (playerSelection.toLowerCase() === "rock" && computerPlay() === "paper") {
-            lose(playerSelection, computerPlay());
-            break;
-            
-    }   
-        if (playerSelection.toLowerCase() === "paper" && computerPlay() === "scissors") {
-            lose(playerSelection, computerPlay());
-            break;
-           
-    }   
-        if (playerSelection.toLowerCase() === "scissors" && computerPlay() === "rock") {
-            lose(playerSelection, computerPlay());
-            break;
-           
-    } 
-        if (playerSelection.toLowerCase() === computerPlay()) {
-            draw(playerSelection, computerPlay());
-            break;
-           
-        }
-        if (playerSelection.toLowerCase() !== "rock" || playerSelection.toLowerCase() !== "paper" || playerSelection.toLowerCase() !== "scissors") {
-            return "Please Enter A Valid Decision."
-        }
-
-        console.log(player)
-        
+       }
     }
 
 rockD.addEventListener('click', function(){
