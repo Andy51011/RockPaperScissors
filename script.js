@@ -1,105 +1,104 @@
 var user_score = document.getElementById("userScore");
-var computer_score = document.getElementById("ComputerScore");
+var computer_scores = document.getElementById("computerScore");
 var score_Board = document.querySelector("scoreBoard");
-var results = document.querySelector("result");
+var results = document.querySelector(".result > p");
 var rockD = document.getElementById("rock");
 var paperD = document.getElementById("paper");
 var scissorsD = document.getElementById("scissors");
 var user_Score = 0;
 var computer_Score = 0;
 
-rockD.addEventListener('click', function(){
-    console.log('Hey you clicked on rock!')
-})
-
-scissorsD.addEventListener('click', function(){
-    console.log('Hey you clicked on paper!')
-})
-
-paperD.addEventListener('click', function(){
-    console.log('Hey you clicked on scissors!')
-})
 
 
-
-    var computerPlay = function(decisions) {
-        var randomNum = Math.floor((Math.random() * 100) + 1);
-        if (randomNum >= 66.66) {
-            decisions = "rock";
-        } 
-        if (randomNum >= 33.33 && randomNum < 66.66) {
-            decisions = "paper"
-        } 
-        if (randomNum >= 0 && randomNum < 33.33) {
-            decisions = "scissors"
-        }
-
-        return decisions
+    var computerPlay = function() {
+        var decisions = ['rock', 'paper', 'scissors']
+        var randomNum = Math.floor(Math.random() * 3);
+        return decisions[randomNum];
+        
         // return paper
         // return scissors
         // return rock
     }
 
-    var playRound = function(playerSelection, computerSelection) {
-        if (playerSelection.toLowerCase() === "rock" && computerSelection === "scissors") {
-            return `You Win! ${playerSelection} beats ${computerSelection}`
+    var win = function(user, computer) {
+        user_Score++
+        user_score.innerHTML = user_Score
+        computer_scores.innerHTML = computer_Score
+        results.innerHTML = user + " beats " + computer + ". You Win!!!"
+        console.log(user);
+        console.log(computer)
+    }
+
+    var draw = function () {
+        
+        
+
+    }
+
+    var lose = function (user, computer) {
+        computer_Score++
+        user_score.innerHTML = user_Score
+        results.innerHTML = user + " loses to " + computer + ". You lose!!!"
+    
+    }
+
+    var playRound = function(playerSelection) {
+        if (playerSelection.toLowerCase() === "rock" && computerPlay() === "scissors") {
+            win(playerSelection, computerPlay());
+            break;
+           
         }
-        if (playerSelection.toLowerCase() === "paper" && computerSelection === "rock") {
-            return `You Win! ${playerSelection} beats ${computerSelection}`
+        if (playerSelection.toLowerCase() === "paper" && computerPlay() === "rock") {
+            win(playerSelection, computerPlay());
+            break;
+            
     }
-         if (playerSelection.toLowerCase() === "scissors" && computerSelection === "paper") {
-            return `You Win! ${playerSelection} beats ${computerSelection}`
+         if (playerSelection.toLowerCase() === "scissors" && computerPlay() === "paper") {
+            win(playerSelection, computerPlay());
+            break;
+           
     }
-        if (playerSelection.toLowerCase() === "rock" && computerSelection === "paper") {
-            return `You Lose! ${computerSelection} beats ${playerSelection}`
+        if (playerSelection.toLowerCase() === "rock" && computerPlay() === "paper") {
+            lose(playerSelection, computerPlay());
+            break;
+            
     }   
-        if (playerSelection.toLowerCase() === "paper" && computerSelection === "scissors") {
-            return `You Lose! ${computerSelection} beats ${playerSelection}`
+        if (playerSelection.toLowerCase() === "paper" && computerPlay() === "scissors") {
+            lose(playerSelection, computerPlay());
+            break;
+           
     }   
-        if (playerSelection.toLowerCase() === "scissors" && computerSelection === "rock") {
-            return `You Lose! ${computerSelection} beats ${playerSelection}`
+        if (playerSelection.toLowerCase() === "scissors" && computerPlay() === "rock") {
+            lose(playerSelection, computerPlay());
+            break;
+           
     } 
-        if (playerSelection.toLowerCase() === computerSelection.toLowerCase()) {
-            return "Tie! Please repeat"
+        if (playerSelection.toLowerCase() === computerPlay()) {
+            draw(playerSelection, computerPlay());
+            break;
+           
         }
         if (playerSelection.toLowerCase() !== "rock" || playerSelection.toLowerCase() !== "paper" || playerSelection.toLowerCase() !== "scissors") {
             return "Please Enter A Valid Decision."
         }
+
+        console.log(player)
         
     }
 
-    var game = function(numberOfRounds) {
-       var playerScore = 0;
-       var computerScore = 0;
-       var ties = 0;
-       for (var i = 0; i <= 5; i++) {
-           var computerSelection = (computerPlay());
-           result = playRound(playerSelection, computerSelection)
-               console.log(result);
+rockD.addEventListener('click', function(){
+    playRound('rock')
+})
 
-       }
-       if (result.includes("Win")) {
-           playerScore++
-       }
-       else if (result.includes("Lose")) {
-           computerScore++
-       } 
-       else {
-           ties++;
-       }
-       var scoreTracker = {
-           player: playerScore,
-           computer: computerScore,
-           tie: ties
-       };
-       console.log(scoreTracker)
-      
+scissorsD.addEventListener('click', function(){
+    playRound('scissors')
+})
 
-    }
+paperD.addEventListener('click', function(){
+    playRound('paper')
+})
 
 
-    var playerSelection = ("Enter Scissors, Rock, or Paper")
-    var computerSelection = computerPlay()
-    console.log(playRound(playerSelection, computerSelection))
-    console.log(game(5))
+
+    
     
